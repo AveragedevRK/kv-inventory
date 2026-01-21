@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- PWA Settings -->
+    <meta name="theme-color" content="#000000" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- iOS Native Feel -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Inventory" />
+    <link rel="apple-touch-icon" href="https://placehold.co/180x180/161616/0F62FE?text=INV" />
+    
+    <title>Inventory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              carbon: {
+                900: '#161616',
+                800: '#262626',
+                700: '#393939',
+                600: '#525252',
+                500: '#6f6f6f',
+                400: '#8d8d8d',
+                300: '#a8a8a8',
+                200: '#c6c6c6',
+                100: '#e0e0e0',
+                50: '#f4f4f4',
+              },
+              kv: {
+                bg: '#0a0a0a',
+                surface: '#161616',
+                surfaceHighlight: '#262626',
+                border: '#333333',
+                accent: '#0F62FE',
+                brandPink: '#FF2D92',
+                brandOrange: '#FF914D',
+                brandRed: '#FF4D67'
+              }
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(15px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              ultraShimmer: {
+                '0%': { backgroundPosition: '200% 0' },
+                '100%': { backgroundPosition: '-200% 0' }
+              },
+              underlineExpand: {
+                '0%': { width: '0%', left: '50%' },
+                '100%': { width: '100%', left: '0%' }
+              },
+              loadingBar: {
+                '0%': { width: '0%', left: '0%' },
+                '50%': { width: '70%', left: '15%' },
+                '100%': { width: '0%', left: '100%' },
+              },
+              slideInRight: {
+                '0%': { transform: 'translateX(100%)' },
+                '100%': { transform: 'translateX(0)' }
+              }
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.3s ease-out forwards',
+              'fade-up': 'fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'ultra-shimmer': 'ultraShimmer 4s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+              'underline-nav': 'underlineExpand 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'loading-bar': 'loadingBar 1.5s infinite ease-in-out',
+              'slide-in-right': 'slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --sat: env(safe-area-inset-top);
+        --sar: env(safe-area-inset-right);
+        --sab: env(safe-area-inset-bottom);
+        --sal: env(safe-area-inset-left);
+        --header-h: 4rem;
+        --total-header-h: calc(var(--header-h) + var(--sat));
+      }
+
+      body {
+        background-color: #0a0a0a;
+        color: #ffffff;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overscroll-behavior: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        user-select: none;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+      }
+
+      #root {
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        background-color: #0a0a0a;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .scroll-container {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+      }
+
+      button, a {
+        touch-action: manipulation;
+        -webkit-user-drag: none;
+      }
+
+      input, textarea {
+        user-select: text !important;
+      }
+
+      .branded-text-premium {
+        background: linear-gradient(
+          90deg, 
+          #ffffff 0%, 
+          #FF2D92 20%, 
+          #FF914D 40%, 
+          #ffffff 50%, 
+          #FF2D92 70%, 
+          #FF914D 80%, 
+          #ffffff 100%
+        );
+        background-size: 200% auto;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        display: inline-block;
+        filter: drop-shadow(0 0 2px rgba(255,45,146,0.2));
+        text-shadow: rgba(255, 45, 146, 0.02) 0px 0px 0.5px, rgba(255, 145, 77, 0.01) 0px 0px 1px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
+
+      .pwa-panel-top {
+        top: var(--total-header-h);
+        height: calc(100% - var(--total-header-h));
+      }
+
+      /* Native feeling scroll with bottom safety */
+      .pwa-scroll-area {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: calc(5rem + var(--sab)); /* Extra space for footer/signature */
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "@supabase/supabase-js": "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+  }
+}
+</script>
+</head>
+  <body class="overscroll-none">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

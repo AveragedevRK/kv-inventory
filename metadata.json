@@ -1,0 +1,7 @@
+{
+  "name": "KV Inventory",
+  "description": "A high-performance inventory management system designed for multi-store tracking and AI-driven insights.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
